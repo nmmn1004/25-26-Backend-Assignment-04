@@ -1,7 +1,7 @@
 # JWT를 활용한 REST API 만들기
 
 ## 과제 요구사항
-- 원하는 주제로 CRUD 구현
+- JWT를 활용하여 원하는 주제로 CRUD 구현
 - 설계한 ERD 사진 첨부
 - Postman 테스트 후 결과 첨부
 - 기본적인 [자바 컨벤션](https://newwisdom.tistory.com/m/96)을 준수합니다.
