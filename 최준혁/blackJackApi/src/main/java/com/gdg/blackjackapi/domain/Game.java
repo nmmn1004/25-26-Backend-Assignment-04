@@ -1,5 +1,6 @@
 package com.gdg.blackjackapi.domain;
 
+import com.gdg.blackjackapi.domain.Player.Player;
 import com.gdg.blackjackapi.domain.Round.Round;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

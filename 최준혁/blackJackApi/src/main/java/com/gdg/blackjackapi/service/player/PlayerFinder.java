@@ -1,8 +1,8 @@
 package com.gdg.blackjackapi.service.player;
 
-import com.gdg.jpaexample.domain.Player;
-import com.gdg.jpaexample.exception.player.PlayerNotFoundException;
-import com.gdg.jpaexample.repository.PlayerRepository;
+import com.gdg.blackjackapi.domain.Player.Player;
+import com.gdg.blackjackapi.exception.player.PlayerNotFoundException;
+import com.gdg.blackjackapi.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

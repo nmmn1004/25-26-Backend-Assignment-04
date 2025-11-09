@@ -1,16 +1,15 @@
 package com.gdg.blackjackapi.service;
 
-import com.gdg.jpaexample.domain.Card.Card;
-import com.gdg.jpaexample.domain.Card.CardOwner;
-import com.gdg.jpaexample.domain.Card.CardUtil;
-import com.gdg.jpaexample.domain.Game;
-import com.gdg.jpaexample.domain.Round.Round;
-import com.gdg.jpaexample.domain.Round.RoundResult;
-import com.gdg.jpaexample.dto.Round.RoundInfoResponseDto;
-import com.gdg.jpaexample.dto.Round.RoundSaveRequestDto;
-import com.gdg.jpaexample.repository.GameRepository;
-import com.gdg.jpaexample.repository.RoundRepository;
-import com.gdg.jpaexample.service.game.GameFinder;
+import com.gdg.blackjackapi.domain.Card.Card;
+import com.gdg.blackjackapi.domain.Card.CardOwner;
+import com.gdg.blackjackapi.domain.Card.CardUtil;
+import com.gdg.blackjackapi.domain.Game;
+import com.gdg.blackjackapi.domain.Round.Round;
+import com.gdg.blackjackapi.domain.Round.RoundResult;
+import com.gdg.blackjackapi.dto.Round.RoundInfoResponseDto;
+import com.gdg.blackjackapi.dto.Round.RoundSaveRequestDto;
+import com.gdg.blackjackapi.repository.RoundRepository;
+import com.gdg.blackjackapi.service.game.GameFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
@@ -50,8 +49,7 @@ public class RoundService {
 
     @Transactional(readOnly = true)
     public RoundInfoResponseDto getLatestRoundByGame(Long gameId) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다. (id=" + gameId + ")"));
+        Game game = gameFinder.findByIdOrThrow(gameId);
 
         Round latest = game.getRounds().stream()
                 .reduce((first, second) -> second)
@@ -62,8 +60,7 @@ public class RoundService {
 
     @Transactional(readOnly = true)
     public List<RoundInfoResponseDto> getAllRoundsByGame(Long gameId) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다. (id=" + gameId + ")"));
+        Game game = gameFinder.findByIdOrThrow(gameId);
 
         return game.getRounds().stream()
                 .map(RoundInfoResponseDto::from)
@@ -72,8 +69,7 @@ public class RoundService {
 
     @Transactional
     public RoundInfoResponseDto updateLatestRound(Long gameId, RoundSaveRequestDto roundSaveRequestDto) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다. (id=" + gameId + ")"));
+        Game game = gameFinder.findByIdOrThrow(gameId);
 
         Round latest = game.getRounds().stream()
                 .reduce((first, second) -> second)
@@ -92,8 +88,7 @@ public class RoundService {
     public RoundInfoResponseDto updateRoundResult(Long gameId) {
         CardUtil cardUtil = new CardUtil();
 
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게임입니다. (id=" + gameId + ")"));
+        Game game = gameFinder.findByIdOrThrow(gameId);
 
         Round latest = game.getRounds().stream()
                 .reduce((first, second) -> second)

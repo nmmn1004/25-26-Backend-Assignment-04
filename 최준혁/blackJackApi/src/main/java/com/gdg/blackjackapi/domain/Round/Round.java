@@ -1,6 +1,7 @@
 package com.gdg.blackjackapi.domain.Round;
 
 import com.gdg.blackjackapi.domain.Card.CardOwner;
+import com.gdg.blackjackapi.domain.Card.Card;
 import com.gdg.blackjackapi.domain.Game;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -34,8 +35,6 @@ public class Round {
         this.bettingChips = bettingChips;
         this.result = RoundResult.PENDING;
         this.game = game;
-
-//        game.getRounds().add(this);
 
         Card playerCard = new Card(CardOwner.PLAYER, this);
         Card opponentCard = new Card(CardOwner.OPPONENT, this);

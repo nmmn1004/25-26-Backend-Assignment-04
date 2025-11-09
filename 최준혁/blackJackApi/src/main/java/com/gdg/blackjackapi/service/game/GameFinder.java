@@ -1,8 +1,8 @@
 package com.gdg.blackjackapi.service.game;
 
-import com.gdg.jpaexample.domain.Game;
-import com.gdg.jpaexample.exception.game.GameNotFoundException;
-import com.gdg.jpaexample.repository.GameRepository;
+import com.gdg.blackjackapi.domain.Game;
+import com.gdg.blackjackapi.exception.game.GameNotFoundException;
+import com.gdg.blackjackapi.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,11 @@
-package com.gdg.blackjackapi.domain;
+package com.gdg.blackjackapi.domain.Player;
 
+import com.gdg.blackjackapi.domain.Game;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,13 +32,19 @@ import java.util.List;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "oauth_id")
+    @Column(name = "oauth_id", unique = true)
     private Long id;
 
     @Column(name = "name", length = 20)
     private String name;
 
+    private String email;
+
     private Long record;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
     private LocalDate date;
 
@@ -43,10 +52,12 @@ public class Player {
     private List<Game> games = new ArrayList<>();
 
     @Builder
-    public Player(String name) {
+    public Player(String name, String email, long record, Role role, LocalDate date) {
         this.name = name;
-        this.record = 0L;
-        this.date = LocalDate.now();
+        this.email = email;
+        this.record = record;
+        this.role = role;
+        this.date = date;
     }
 
     public void update(String name, long record) {

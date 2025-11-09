@@ -3,6 +3,7 @@ package com.gdg.blackjackapi.controller;
 import com.gdg.blackjackapi.dto.Game.GameSaveRequestDto;
 import com.gdg.blackjackapi.dto.Game.GameInfoResponseDto;
 import com.gdg.blackjackapi.service.game.GameService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping
-    public ResponseEntity<GameInfoResponseDto> saveGame(@RequestBody GameSaveRequestDto gameRequestDto) {
+    public ResponseEntity<GameInfoResponseDto> saveGame(@Valid @RequestBody GameSaveRequestDto gameRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(gameService.saveGame(gameRequestDto));
     }
 

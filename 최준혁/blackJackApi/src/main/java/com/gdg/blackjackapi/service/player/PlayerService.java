@@ -1,13 +1,18 @@
 package com.gdg.blackjackapi.service.player;
 
-import com.gdg.jpaexample.domain.Player;
-import com.gdg.jpaexample.dto.Player.PlayerSaveRequestDto;
-import com.gdg.jpaexample.dto.Player.PlayerInfoResponseDto;
-import com.gdg.jpaexample.repository.PlayerRepository;
+import com.gdg.blackjackapi.domain.Player.Player;
+import com.gdg.blackjackapi.dto.Player.PlayerInfoResponseDto;
+import com.gdg.blackjackapi.dto.Player.PlayerSaveRequestDto;
+import com.gdg.blackjackapi.dto.Player.PlayerSignUpDto;
+import com.gdg.blackjackapi.dto.Token.TokenDto;
+import com.gdg.blackjackapi.repository.PlayerRepository;
+import com.gdg.blackjackapi.security.TokenProvider;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -16,19 +21,22 @@ public class PlayerService {
     private final PlayerRepository playerRepository;
     private final PlayerCreator playerCreator;
     private final PlayerFinder playerFinder;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
 
-    /**
-    * @param playerSaveRequestDto - 클라이언트로 요청받는 객체
-    * @return 플레이어의 닉네임을 repository에 저장하고 저장한 객체를 반환
-    */
-    @Transactional
-    public PlayerInfoResponseDto savePlayer(PlayerSaveRequestDto  playerSaveRequestDto) {
-        return PlayerInfoResponseDto.from(playerCreator.create(playerSaveRequestDto));
+    public TokenDto signUp(PlayerSignUpDto playerSignUpDto){
+        Player player = playerCreator.create(playerSignUpDto);
+
+        String accessToken = tokenProvider.createAccessToken(player);
+
+        return TokenDto.builder()
+                .accessToken(accessToken)
+                .build();
     }
 
     @Transactional(readOnly = true)
-    public PlayerInfoResponseDto getPlayer(Long playerId) {
-        return PlayerInfoResponseDto.from(playerFinder.findByIdOrThrow(playerId));
+    public PlayerInfoResponseDto findPlayerByPrincipal(Principal Principal) {
+        return PlayerInfoResponseDto.from(playerFinder.findByIdOrThrow(Long.parseLong(Principal.getName())));
     }
 
     @Transactional(readOnly = true)
@@ -62,7 +70,7 @@ public class PlayerService {
         }
         return PlayerInfoResponseDto.from(player);
     }
-w
+
     @Transactional
     public void deletePlayer(Long playerId) {
         playerRepository.delete(playerFinder.findByIdOrThrow(playerId));

@@ -1,7 +1,7 @@
 package com.gdg.blackjackapi.dto.Game;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Getter
 public class GameSaveRequestDto {

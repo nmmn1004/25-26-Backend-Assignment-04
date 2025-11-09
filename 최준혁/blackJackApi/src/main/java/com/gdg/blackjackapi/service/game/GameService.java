@@ -1,12 +1,12 @@
 package com.gdg.blackjackapi.service.game;
 
-import com.gdg.jpaexample.domain.Game;
-import com.gdg.jpaexample.domain.Player;
-import com.gdg.jpaexample.dto.Game.GameSaveRequestDto;
-import com.gdg.jpaexample.dto.Game.GameInfoResponseDto;
-import com.gdg.jpaexample.repository.GameRepository;
-import com.gdg.jpaexample.service.player.PlayerFinder;
-import com.gdg.jpaexample.service.player.PlayerService;
+import com.gdg.blackjackapi.domain.Game;
+import com.gdg.blackjackapi.domain.Player.Player;
+import com.gdg.blackjackapi.dto.Game.GameInfoResponseDto;
+import com.gdg.blackjackapi.dto.Game.GameSaveRequestDto;
+import com.gdg.blackjackapi.repository.GameRepository;
+import com.gdg.blackjackapi.service.player.PlayerFinder;
+import com.gdg.blackjackapi.service.player.PlayerService;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

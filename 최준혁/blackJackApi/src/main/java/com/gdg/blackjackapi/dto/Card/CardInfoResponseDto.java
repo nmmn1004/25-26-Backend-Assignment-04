@@ -1,5 +1,6 @@
 package com.gdg.blackjackapi.dto.Card;
 
+import com.gdg.blackjackapi.domain.Card.Card;
 import lombok.Builder;
 import lombok.Getter;
 

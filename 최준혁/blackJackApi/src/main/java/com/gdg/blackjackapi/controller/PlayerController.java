@@ -2,7 +2,10 @@ package com.gdg.blackjackapi.controller;
 
 import com.gdg.blackjackapi.dto.Player.PlayerInfoResponseDto;
 import com.gdg.blackjackapi.dto.Player.PlayerSaveRequestDto;
+import com.gdg.blackjackapi.dto.Player.PlayerSignUpDto;
+import com.gdg.blackjackapi.dto.Token.TokenDto;
 import com.gdg.blackjackapi.service.player.PlayerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,23 +27,23 @@ import java.util.List;
 public class PlayerController {
     private final PlayerService playerService;
 
-    @PostMapping
-    public ResponseEntity<PlayerInfoResponseDto> savePlayer(@RequestBody PlayerSaveRequestDto playerRequestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(playerService.savePlayer(playerRequestDto));
-    }
-
-    @GetMapping("/{playerId}")
-    public ResponseEntity<PlayerInfoResponseDto> getPlayer(@PathVariable Long playerId) {
-        return ResponseEntity.status(HttpStatus.OK).body(playerService.getPlayer(playerId));
+    @PostMapping("signup")
+    public ResponseEntity<TokenDto> signUp(@Valid @RequestBody PlayerSignUpDto playerSignUpDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(playerService.signUp(playerSignUpDto));
     }
 
     @GetMapping
-    public ResponseEntity<List<PlayerInfoResponseDto>> getPlayer() {
-        return ResponseEntity.status(HttpStatus.OK).body(playerService.getAllPlayer());
+    public ResponseEntity<PlayerInfoResponseDto> getPlayer(Principal principal) {
+        return ResponseEntity.status(HttpStatus.OK).body(playerService.findPlayerByPrincipal(principal));
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<PlayerInfoResponseDto>> getPlayer() {
+//        return ResponseEntity.status(HttpStatus.OK).body(playerService.getAllPlayer());
+//    }
+
     @PatchMapping("/{playerId}")
-    public ResponseEntity<PlayerInfoResponseDto> updatePlayer(@PathVariable Long playerId, @RequestBody PlayerSaveRequestDto playerRequestDto) {
+    public ResponseEntity<PlayerInfoResponseDto> updatePlayer(@PathVariable Long playerId, @Valid @RequestBody PlayerSaveRequestDto playerRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(playerService.updatePlayer(playerId, playerRequestDto));
     }
 
