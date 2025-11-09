@@ -7,10 +7,12 @@ import com.gdg.blackjackapi.dto.Game.GameSaveRequestDto;
 import com.gdg.blackjackapi.repository.GameRepository;
 import com.gdg.blackjackapi.service.player.PlayerFinder;
 import com.gdg.blackjackapi.service.player.PlayerService;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -23,8 +25,8 @@ public class GameService {
     private final PlayerService playerService;
 
     @Transactional
-    public GameInfoResponseDto saveGame(GameSaveRequestDto gameSaveRequestDto) {
-        Player player = playerFinder.findByIdOrThrow(gameSaveRequestDto.getPlayerId());
+    public GameInfoResponseDto saveGame(Principal principal, GameSaveRequestDto gameSaveRequestDto) {
+        Player player = playerFinder.findByIdOrThrow(Long.parseLong(principal.getName()));
 
         return GameInfoResponseDto.from(gameCreator.create(player, gameSaveRequestDto));
     }
@@ -45,8 +47,12 @@ public class GameService {
     }
 
     @Transactional
-    public GameInfoResponseDto getGameResult(Long gameId) {
+    public GameInfoResponseDto getGameResult(Principal principal, Long gameId) {
         Game game = gameFinder.findByIdOrThrow(gameId);
+
+        if (!game.getPlayer().getId().equals(Long.parseLong(principal.getName()))) {
+            throw new AccessDeniedException("잘못된 접근입니다.");
+        }
 
         playerService.updatePlayer(game.getPlayer().getId(), game.getChips());
 

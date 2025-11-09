@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,8 +25,8 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping
-    public ResponseEntity<GameInfoResponseDto> saveGame(@Valid @RequestBody GameSaveRequestDto gameRequestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(gameService.saveGame(gameRequestDto));
+    public ResponseEntity<GameInfoResponseDto> saveGame(Principal principal, @Valid @RequestBody GameSaveRequestDto gameRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(gameService.saveGame(principal, gameRequestDto));
     }
 
     @GetMapping("/{gameId}")
@@ -45,7 +46,7 @@ public class GameController {
     }
 
     @GetMapping("/result/{gameId}")
-    public ResponseEntity<GameInfoResponseDto> getResult(@PathVariable Long gameId) {
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.getGameResult(gameId));
+    public ResponseEntity<GameInfoResponseDto> getResult(Principal principal, @PathVariable Long gameId) {
+        return ResponseEntity.status(HttpStatus.OK).body(gameService.getGameResult(principal, gameId));
     }
 }

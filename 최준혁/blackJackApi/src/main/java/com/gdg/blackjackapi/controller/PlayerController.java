@@ -42,14 +42,14 @@ public class PlayerController {
 //        return ResponseEntity.status(HttpStatus.OK).body(playerService.getAllPlayer());
 //    }
 
-    @PatchMapping("/{playerId}")
-    public ResponseEntity<PlayerInfoResponseDto> updatePlayer(@PathVariable Long playerId, @Valid @RequestBody PlayerSaveRequestDto playerRequestDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(playerService.updatePlayer(playerId, playerRequestDto));
+    @PatchMapping
+    public ResponseEntity<PlayerInfoResponseDto> updatePlayer(Principal principal, @Valid @RequestBody PlayerSaveRequestDto playerRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(playerService.updatePlayer(principal, playerRequestDto));
     }
 
-    @DeleteMapping("/{playerId}")
-    public ResponseEntity<PlayerInfoResponseDto> deletePlayer(@PathVariable Long playerId) {
-        playerService.deletePlayer(playerId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @DeleteMapping
+    public ResponseEntity<Void> deletePlayer(Principal principal) {
+        playerService.deletePlayer(principal);
+        return ResponseEntity.noContent().build();
     }
 }

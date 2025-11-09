@@ -47,13 +47,12 @@ public class PlayerService {
     }
 
     /**
-     * @param playerId
      * @param playerSaveRequestDto
      * @return
      * */
     @Transactional
-    public PlayerInfoResponseDto updatePlayer(Long playerId, PlayerSaveRequestDto playerSaveRequestDto) {
-        Player player = playerFinder.findByIdOrThrow(playerId);
+    public PlayerInfoResponseDto updatePlayer(Principal principal, PlayerSaveRequestDto playerSaveRequestDto) {
+        Player player = playerFinder.findByIdOrThrow(Long.parseLong(principal.getName()));
 
         player.update(playerSaveRequestDto.getName(), player.getRecord());
 
@@ -72,8 +71,8 @@ public class PlayerService {
     }
 
     @Transactional
-    public void deletePlayer(Long playerId) {
-        playerRepository.delete(playerFinder.findByIdOrThrow(playerId));
+    public void deletePlayer(Principal principal) {
+        playerRepository.delete(playerFinder.findByIdOrThrow(Long.parseLong(principal.getName())));
     }
 }
 
