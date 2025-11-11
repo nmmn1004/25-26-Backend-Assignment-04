@@ -19,9 +19,4 @@ public class PlayerFinder {
         return playerRepository.findById(playerId)
                 .orElseThrow(() -> new PlayerNotFoundException(playerId));
     }
-
-    @Transactional(readOnly = true)
-    public List<Player> findAll() {
-        return playerRepository.findAll();
-    }
 }

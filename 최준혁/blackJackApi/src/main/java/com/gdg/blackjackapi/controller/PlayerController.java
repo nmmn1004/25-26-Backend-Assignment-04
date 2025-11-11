@@ -37,11 +37,6 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.OK).body(playerService.findPlayerByPrincipal(principal));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<PlayerInfoResponseDto>> getPlayer() {
-//        return ResponseEntity.status(HttpStatus.OK).body(playerService.getAllPlayer());
-//    }
-
     @PatchMapping
     public ResponseEntity<PlayerInfoResponseDto> updatePlayer(Principal principal, @Valid @RequestBody PlayerSaveRequestDto playerRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(playerService.updatePlayer(principal, playerRequestDto));

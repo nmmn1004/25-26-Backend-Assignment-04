@@ -39,13 +39,6 @@ public class PlayerService {
         return PlayerInfoResponseDto.from(playerFinder.findByIdOrThrow(Long.parseLong(Principal.getName())));
     }
 
-    @Transactional(readOnly = true)
-    public List<PlayerInfoResponseDto> getAllPlayer() {
-        return playerFinder.findAll().stream()
-                .map(PlayerInfoResponseDto::from)
-                .toList();
-    }
-
     /**
      * @param playerSaveRequestDto
      * @return

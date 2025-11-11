@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class RoundService {
     private final RoundRepository roundRepository;
     private final GameFinder gameFinder;
+    private final CardUtil cardUtil = new CardUtil();
 
     @Transactional
     public RoundInfoResponseDto saveRound(RoundSaveRequestDto roundSaveRequestDto) {
@@ -79,15 +80,13 @@ public class RoundService {
             latest.updateBettingChips(roundSaveRequestDto.getBettingChips());
         }
 
-        game.update(game.getChips() - roundSaveRequestDto.getBettingChips(), game.getPlayer());
+        game.update(game.getChips() - latest.getBettingChips(), game.getPlayer());
 
         return RoundInfoResponseDto.from(latest);
     }
 
     @Transactional
     public RoundInfoResponseDto updateRoundResult(Long gameId) {
-        CardUtil cardUtil = new CardUtil();
-
         Game game = gameFinder.findByIdOrThrow(gameId);
 
         Round latest = game.getRounds().stream()
